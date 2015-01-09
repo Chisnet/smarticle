@@ -1,0 +1,74 @@
+/* General Styles */
+body {
+	background: #232323;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#smarticle {
+	width: 800px;
+	min-height: 800px;
+	margin: 10px auto 0;
+	background: #fff;
+	overflow: hidden;
+}
+
+.smarticle-layout {
+	float: left;
+	width: 600px;
+	height: 800px;
+	background: #eee;;
+}
+
+.smarticle-tools {
+	float: right;
+	width: 179px;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 10px;
+}
+
+.smartifact {
+	height: 30px;
+	border: 1px solid #232323;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	background: #ccc;
+	line-height: 30px;
+	font-size: 14px;
+	padding: 0 10px;
+}
+.smartifact:last-child {
+	margin-bottom: 0px;
+}
+
+.smarticle-layout .smartifact {
+	background: #cc9999;
+	height: 50px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+/* Special Styles */
+[draggable] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	/* Required to make elements draggable in old WebKit */
+	-khtml-user-drag: element;
+	-webkit-user-drag: element;
+}
+
+.smartifact {
+	cursor: move;
+}
+
+.smartifact-placeholder {
+	border: 2px dashed #999;
+	border-radius: 5px;
+	min-height: 30px;
+}
+
+.smartifact-wrapper {
+	padding: 10px 10px 0;
+}
