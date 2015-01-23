@@ -64,7 +64,7 @@ body {
 }
 
 .smartifact-placeholder {
-	border: 2px dashed #999;
+	border: 1px dashed #999;
 	border-radius: 5px;
 	min-height: 30px;
 }

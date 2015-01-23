@@ -2,9 +2,28 @@
 (function($){
     $.fn.smarticle = function(options) {
         var elements = this;
+        var $moving_element;
 
         if(elements.length > 0) {
             var opts = $.extend({}, $.fn.smarticle.defaults, options);
+            var $placeholder = $('<div class="smartifact-wrapper"><div class="smartifact-placeholder"></div></div>');
+
+            var dragstart_func = function(e){
+                $moving_element = $(this).parent();
+                e.originalEvent.dataTransfer.setData('origin', 'existing');
+                $(this).css('opacity', '0.5');
+                $(this).parent().hide();
+                $placeholder.find('.smartifact-placeholder').css('height', $(this).innerHeight());
+                $(this).append($placeholder);
+            };
+
+            var dragend_func = function(){
+                $moving_element = undefined;
+                $(this).css('opacity', '1');
+                $placeholder.find('.smartifact-placeholder').css('height', '');
+                $placeholder.remove();
+                $(this).parent().show();
+            };
 
             elements.each(function(){
                 var self = this;
@@ -13,11 +32,11 @@
                 var $existingSmartifacts = $self.find('.smarticle-layout .smartifact');
                 var $smartifactTools = $self.find('.smarticle-tools .smartifact');
                 var $smartifactLayout = $self.find('.smarticle-layout');
-                var $placeholder = $('<div class="smartifact-wrapper"><div class="smartifact-placeholder"></div></div>');
 
                 // Tools Events
                 $smartifactTools.attr('draggable','true').on('dragstart', function(e){
                     e.originalEvent.dataTransfer.setData('smartifact', $(this).data('smartifact'));
+                    e.originalEvent.dataTransfer.setData('origin', 'new');
                     $(this).css('opacity', '0.5');
                     $smartifactLayout.append($placeholder);
                 }).on('dragend', function(){
@@ -41,43 +60,40 @@
                     }
                 });
 
-                // TEMP
                 $smartifactLayout.on('drop', function(e){
-                    var smartifactType = e.originalEvent.dataTransfer.getData('smartifact');
-                    var smartifactContent = 'Unknown';
+                    var smartifactOrigin = e.originalEvent.dataTransfer.getData('origin');
 
-                    switch(smartifactType) {
-                        case 'header':
-                            smartifactContent = 'Header';
-                            break;
-                        case 'text':
-                            smartifactContent = 'Text';
-                            break;
-                        case 'quote':
-                            smartifactContent = 'Quote';
-                            break;
-                        case 'youtube':
-                            smartifactContent = 'YouTube Video';
-                            break;
+                    if(smartifactOrigin == 'new') {
+                        var smartifactType = e.originalEvent.dataTransfer.getData('smartifact');
+                        var smartifactContent = 'Unknown';
+                        switch(smartifactType) {
+                            case 'header':
+                                smartifactContent = 'Header';
+                                break;
+                            case 'text':
+                                smartifactContent = 'Text';
+                                break;
+                            case 'quote':
+                                smartifactContent = 'Quote';
+                                break;
+                            case 'youtube':
+                                smartifactContent = 'YouTube Video';
+                                break;
+                        }
+                        var $newSmartifact = $('<div class="smartifact-wrapper"><div class="smartifact">' + smartifactContent + '</div></div>');
+                        $newSmartifact.data('smartifact', smartifactType);
+                        $newSmartifact.find('.smartifact').attr('draggable','true').on('dragstart', dragstart_func).on('dragend', dragend_func);
+                        $placeholder.replaceWith($newSmartifact);
                     }
-
-                    $newSmartifact = $('<div class="smartifact-wrapper"><div class="smartifact">' + smartifactContent + '</div></div>');
-                    $newSmartifact.data('smartifact', smartifactType);
-                    $placeholder.replaceWith($newSmartifact);
+                    else if(smartifactOrigin == 'existing') {
+                        $placeholder.replaceWith($moving_element);
+                    }
                 });
 
                 // Existing Layout Smartifact Events - WIP
-                // $existingSmartifacts.attr('draggable','true').on('dragstart', function(e){
-                //     e.originalEvent.dataTransfer.setData('smartifact', $(this).data('smartifact'));
-                //     $(this).css('opacity', '0.5');
-                //     $(this).hide();
-                //     $(this).append($placeholder);
-                // }).on('dragend', function(){
-                //     $(this).css('opacity', '1');
-                //     $placeholder.remove();
-                //     $(this).show();
-                // });
+                $existingSmartifacts.attr('draggable','true').on('dragstart', dragstart_func).on('dragend', dragend_func);
 
+                $('.smarticle-layout .smartifact');
             });
 
         }
