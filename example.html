@@ -60,12 +60,12 @@
 					'parse': function(field_data){
 						if(field_data['provider'] == 'youtube') {
 							if(field_data['video_id'] != ''){ 
-								return '<iframe width="267" height="150" src="https://www.youtube.com/embed/' + field_data['video_id'] + '" frameborder="0" allowfullscreen></iframe>';
+								return '<iframe width="267" height="150" src="http://www.youtube.com/embed/' + field_data['video_id'] + '" frameborder="0" allowfullscreen></iframe>';
 							}
 						}
 						else if(field_data['provider'] == 'vimeo') {
 							if(field_data['video_id'] != ''){ 
-								return '<iframe src="//player.vimeo.com/video/' + field_data['video_id'] + '" width="267" height="150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+								return '<iframe src="http://player.vimeo.com/video/' + field_data['video_id'] + '" width="267" height="150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 							}
 						}
 						return '';
