@@ -11,14 +11,67 @@
 			<div class="smarticle-tools">
 				<div class="smartifact" data-smartifact="header">Header</div>
 				<div class="smartifact" data-smartifact="text">Text</div>
-				<div class="smartifact" data-smartifact="quote">Quote</div>
-				<div class="smartifact" data-smartifact="youtube">YouTube Video</div>
+				<div class="smartifact" data-smartifact="video">Video</div>
 			</div>
+			<div id="preview_area" class="smarticle-preview"></div>
 		</div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="js/markdown.js"></script>
 		<script src="js/smarticle.js"></script>
 		<script>
-			$('#smarticle').smarticle();
+			$('#smarticle').smarticle({
+				'header': {
+					'name': 'Header',
+					'fields': [
+						{
+							'name': 'Title',
+							'type': 'text'
+						}
+					],
+					'parse': function(field_data){
+						return '<h2>' + field_data['title'] + '</h2>';
+					}
+				},
+				'text': {
+					'name': 'Text',
+					'fields': [
+						{
+							'name': 'Text',
+							'type': 'markdown'
+						}
+					],
+					'parse': function(field_data){
+						return markdown.toHTML(field_data['text']);
+					}
+				},
+				'video': {
+					'name': 'Video',
+					'fields': [
+						{
+							'name': 'Provider',
+							'type': 'dropdown',
+							'options': ['YouTube', 'Vimeo']
+						},
+						{
+							'name': 'Video ID',
+							'type': 'text'
+						}
+					],
+					'parse': function(field_data){
+						if(field_data['provider'] == 'youtube') {
+							if(field_data['video_id'] != ''){ 
+								return '<iframe width="267" height="150" src="https://www.youtube.com/embed/' + field_data['video_id'] + '" frameborder="0" allowfullscreen></iframe>';
+							}
+						}
+						else if(field_data['provider'] == 'vimeo') {
+							if(field_data['video_id'] != ''){ 
+								return '<iframe src="//player.vimeo.com/video/' + field_data['video_id'] + '" width="267" height="150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+							}
+						}
+						return '';
+					}
+				}
+			});
 		</script>
 	</body>
 </html>

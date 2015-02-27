@@ -5,7 +5,7 @@ body {
 }
 
 #smarticle {
-	width: 800px;
+	width: 1000px;
 	min-height: 800px;
 	margin: 10px auto 0;
 	background: #fff;
@@ -15,16 +15,31 @@ body {
 .smarticle-layout {
 	float: left;
 	width: 600px;
-	height: 800px;
-	background: #eee;;
+	min-height: 800px;
+	background: #eee;
+	padding-bottom: 100px;
 }
 
 .smarticle-tools {
 	float: right;
-	width: 179px;
+	width: 379px;
 	border-left: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	padding: 10px;
+}
+
+.smarticle-preview {
+	float: right;
+	padding: 10px;
+	width: 379px;
+	font-size: 10px;
+}
+.smarticle-preview h2{
+	font-size: 14px;
+	margin: 0 0 5px;
+}
+.smarticle-preview ul {
+	padding-left: 10px;
 }
 
 .smartifact {
@@ -33,7 +48,6 @@ body {
 	border-radius: 5px;
 	margin-bottom: 10px;
 	background: #ccc;
-	line-height: 30px;
 	font-size: 14px;
 	padding: 0 10px;
 }
@@ -41,11 +55,20 @@ body {
 	margin-bottom: 0px;
 }
 
+.smarticle-tools .smartifact {
+	line-height: 30px;
+	cursor: move;
+}
+
 .smarticle-layout .smartifact {
 	background: #cc9999;
-	height: 50px;
+	min-height: 50px;
 	padding: 10px;
 	border-radius: 5px;
+	height: auto;
+}
+.smarticle-layout .smartifact h2 {
+	cursor: move;
 }
 
 /* Special Styles */
@@ -59,10 +82,6 @@ body {
 	-webkit-user-drag: element;
 }
 
-.smartifact {
-	cursor: move;
-}
-
 .smartifact-placeholder {
 	border: 1px dashed #999;
 	border-radius: 5px;
@@ -71,4 +90,53 @@ body {
 
 .smartifact-wrapper {
 	padding: 10px 10px 0;
+}
+
+
+/* Smartifact styles */
+
+.smartifact h2 {
+	color: #885555;
+	font-size: 20px;
+	margin: 0 0 10px;
+}
+.smartifact h3 {
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0;
+}
+.smartifact .field {
+	padding: 5px;
+	margin-bottom: 10px;
+	background: #ccc;
+}
+.smartifact .field label {
+	padding-right: 10px;
+}
+.smartifact .field input {
+	width: 300px;
+	border: 1px solid #999;
+	height: 20px;
+	padding: 2px 5px;
+}
+
+.smartifact .text_field label,
+.smartifact .dropdown_field label {
+	position: relative;
+	top: 1px;
+}
+.smartifact .markdown_field label {
+	display: block;
+	padding: 0 0 5px;
+}
+.smartifact .field textarea {
+	width: 536px;
+	height: 250px;
+	resize: none;
+	padding: 5px;
+}
+.smartifact .help {
+	padding-top: 5px;
+	font-size: 11px;
+	color: #666;
 }
