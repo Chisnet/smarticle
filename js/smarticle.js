@@ -150,6 +150,7 @@
                     }
                     else if(smartifactOrigin == 'existing') {
                         $placeholder.replaceWith($moving_element);
+                        render_preview();
                     }
                 });
 

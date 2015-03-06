@@ -11,6 +11,7 @@
 			<div class="smarticle-tools">
 				<div class="smartifact" data-smartifact="header">Header</div>
 				<div class="smartifact" data-smartifact="text">Text</div>
+				<div class="smartifact" data-smartifact="image">Image</div>
 				<div class="smartifact" data-smartifact="video">Video</div>
 			</div>
 			<div id="preview_area" class="smarticle-preview"></div>
@@ -42,6 +43,21 @@
 					],
 					'parse': function(field_data){
 						return markdown.toHTML(field_data['text']);
+					}
+				},
+				'image': {
+					'name': 'Image',
+					'fields': [
+						{
+							'name': 'Location',
+							'type': 'text',
+						}
+					],
+					parse: function(field_data){
+						if(field_data['location'] != '') {
+							return '<img src="' + field_data['location'] + '"/>';
+						}
+						return '';
 					}
 				},
 				'video': {
