@@ -18,7 +18,6 @@
         }
 
         function render_preview() {
-            console.clear();
             var $preview_area = $('#preview_area');
             var output = '';
             var $smartifacts = $('.smarticle-layout .smartifact');
@@ -35,7 +34,6 @@
                 //var output = smartifacts[smartifact_type]['parse']
                 output += smartifacts[smartifact_type]['parse'](field_data);
             }
-            console.log(output);
             $preview_area.html(output);
         }
 
@@ -48,8 +46,8 @@
                     $moving_element = $(this).parent();
                     e.originalEvent.dataTransfer.setData('origin', 'existing');
                     $(this).css('opacity', '0.5');
-                    $(this).parent().hide();
-                    $placeholder.find('.smartifact-placeholder').css('height', $(this).innerHeight());
+                    $placeholder.find('.smartifact-placeholder').css('height', $(this).parent().innerHeight());
+                    $(this).parent().parent().hide();
                     $(this).append($placeholder);
                 }
             };
@@ -57,16 +55,16 @@
             var dragend_func = function(){
                 $moving_element = undefined;
                 $(this).css('opacity', '1');
+                $(this).parent().parent().show();
                 $placeholder.find('.smartifact-placeholder').css('height', '');
                 $placeholder.remove();
-                $(this).parent().show();
             };
 
             elements.each(function(){
                 var self = this;
                 var $self = $(self);
 
-                var $existingSmartifacts = $self.find('.smarticle-layout .smartifact');
+                var $existingSmartifacts = $self.find('.smarticle-layout .smartifact h2');
                 var $smartifactTools = $self.find('.smarticle-tools .smartifact');
                 var $smartifactLayout = $self.find('.smarticle-layout');
 
@@ -108,6 +106,7 @@
                         var fields = smartifactInfo['fields'];
 
                         smartifactContent += '<h2>' + smartifactInfo['name'] + '</h2>';
+                        smartifactContent += '<a href="#" class="remove">X</a>';
                         for(var i=0; i<fields.length; i++) {
                             var field = fields[i];
                             var field_output = '<div class="field ' + field['type'] + '_field">';
@@ -138,7 +137,7 @@
 
                         var $newSmartifact = $('<div class="smartifact-wrapper"><div class="smartifact" data-type="' + slugify(smartifactInfo['name']) + '">' + smartifactContent + '</div></div>');
                         $newSmartifact.data('smartifact', smartifactType);
-                        $newSmartifact.find('.smartifact').attr('draggable','true').on('dragstart', dragstart_func).on('dragend', dragend_func);
+                        $newSmartifact.find('.smartifact h2').attr('draggable','true').on('dragstart', dragstart_func).on('dragend', dragend_func);
                         
                         $newSmartifact.find('input, select, textarea').bind('change', function(){
                             render_preview();
@@ -149,7 +148,7 @@
                         render_preview();
                     }
                     else if(smartifactOrigin == 'existing') {
-                        $placeholder.replaceWith($moving_element);
+                        $placeholder.replaceWith($moving_element.parent());
                         render_preview();
                     }
                 });
